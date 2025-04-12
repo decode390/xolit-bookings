@@ -1,0 +1,6 @@
+[submodule "xolit-back"]
+	path = xolit-back
+	url = https://github.com/decode390/xolit-backend.git
+[submodule "xolit-front"]
+	path = xolit-front
+	url = https://github.com/decode390/xolit-frontend.git

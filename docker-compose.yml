@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: ./xolit-front
+      dockerfile: Dockerfile
+    ports:
+      - "4201:4200"
+    depends_on:
+      - webapi
+
+  webapi:
+    build:
+      context: ./xolit-back
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Default=Server=sql-xolit;Database=SharedSpaces;Integrated Security=false;User ID=sa;Password=X0litPasswd123.;Encrypt=true;TrustServerCertificate=true;
+    depends_on:
+      - sql-xolit
+    restart: on-failure
+
+  sql-xolit:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-xolit
+    hostname: sql-xolit
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=X0litPasswd123.
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
